@@ -122,19 +122,58 @@
       }
     }
 
-    // 更新檔案列表
-    fileInput.addEventListener("change", () => {
+    // 已選擇的檔案清單，可調整順序
+    let selectedFiles = [];
+
+    // 渲染檔案清單，加入上下移動按鈕
+    function renderFileList() {
       fileList.innerHTML = "";
-      Array.from(fileInput.files).forEach((file, index) => {
+      selectedFiles.forEach((file, index) => {
         const li = document.createElement("li");
-        li.textContent = `${index + 1}. ${file.name} (${formatFileSize(file.size)})`;
+        li.className = "flex items-center mb-1";
+
+        const text = document.createElement("span");
+        text.className = "flex-1";
+        text.textContent = `${index + 1}. ${file.name} (${formatFileSize(file.size)})`;
+
+        const upBtn = document.createElement("button");
+        upBtn.textContent = "↑";
+        upBtn.className = "px-2";
+        upBtn.disabled = index === 0;
+        upBtn.addEventListener("click", () => moveFile(index, -1));
+
+        const downBtn = document.createElement("button");
+        downBtn.textContent = "↓";
+        downBtn.className = "px-2";
+        downBtn.disabled = index === selectedFiles.length - 1;
+        downBtn.addEventListener("click", () => moveFile(index, 1));
+
+        li.appendChild(text);
+        li.appendChild(upBtn);
+        li.appendChild(downBtn);
         fileList.appendChild(li);
       });
+    }
+
+    // 移動檔案位置
+    function moveFile(index, offset) {
+      const newIndex = index + offset;
+      if (newIndex < 0 || newIndex >= selectedFiles.length) return;
+      const tmp = selectedFiles[index];
+      selectedFiles[index] = selectedFiles[newIndex];
+      selectedFiles[newIndex] = tmp;
+      renderFileList();
+    }
+
+    // 選擇檔案事件
+    fileInput.addEventListener("change", () => {
+      selectedFiles = Array.from(fileInput.files);
+      renderFileList();
     });
 
     // 合併按鈕事件
     mergeBtn.addEventListener("click", async () => {
-      const files = fileInput.files;
+      const files = selectedFiles;
       if (!files.length) {
         alert("請先選擇至少 1 個 PDF！");
         return;
