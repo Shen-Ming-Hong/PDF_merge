@@ -17,13 +17,15 @@
 </head>
 
 <body
-  class="font-sans max-w-3xl mx-auto p-4 leading-relaxed dark:bg-gray-800 dark:text-gray-100 transition-colors duration-200">
-  <div class="flex justify-between items-center mb-4">
+  class="font-sans max-w-5xl mx-auto p-4 leading-relaxed dark:bg-gray-800 dark:text-gray-100 transition-colors duration-200">
+  <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
     <div>
-      <h1 class="text-2xl font-bold">PDF 合併工具</h1>
-      <p class="text-gray-700 dark:text-gray-300">完全離線的瀏覽器端 PDF 合併工具，您的檔案不會上傳到任何伺服器</p>
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">PDF 合併工具
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-1">完全離線的瀏覽器端 PDF 合併工具，您的檔案不會上傳到任何伺服器</p>
     </div>
-    <button id="themeToggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-600 focus:outline-none">
+    <button id="themeToggle"
+      class="p-2 rounded-full bg-gray-200 dark:bg-gray-600 focus:outline-none hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">
       <svg xmlns="http://www.w3.org/2000/svg" id="lightIcon" class="h-6 w-6 hidden dark:block" fill="none"
         viewBox="0 0 24 24" stroke="currentColor">
         <!-- 太陽圖標 -->
@@ -38,33 +40,83 @@
       </svg>
     </button>
   </div>
-  <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 mb-4 shadow dark:bg-gray-700">
-    <h3 class="font-semibold mb-2">1. 選擇要合併的 PDF 檔案</h3>
-    <input id="fileInput" class="mb-2" type="file" accept="application/pdf" multiple>
-    <ul id="fileList" class="list-none my-2 p-0"></ul>
-    <h3 class="font-semibold mb-2">2. 合併選項</h3>
-    <label class="block mb-2">
-      <input type="text" id="outputFileName" value="merged_document" placeholder="輸出檔名"
-        class="border rounded px-2 py-1 mr-1 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-      .pdf
+  <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-6 mb-6 shadow-sm dark:bg-gray-700 bg-white">
+    <h3 class="font-semibold text-lg mb-4">1. 選擇要合併的 PDF 檔案</h3>
+
+    <label for="fileInput"
+      class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-600 hover:bg-gray-100 dark:hover:bg-gray-500 transition-colors">
+      <div class="flex flex-col items-center justify-center pt-5 pb-6">
+        <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+        </svg>
+        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+          <span class="font-semibold">點擊或拖放 PDF 檔案</span>
+        </p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">支援多個 PDF 檔案</p>
+      </div>
+      <input id="fileInput" type="file" accept="application/pdf" multiple class="hidden" />
     </label>
 
-    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded my-2" id="progressContainer" style="display: none;">
-      <div class="h-5 bg-green-500 rounded text-center text-white" id="progressBar" style="width:0%">0%</div>
+    <div class="mt-4">
+      <div class="flex justify-between items-center">
+        <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300">已選擇檔案:</h4>
+        <button id="clearFiles" type="button" class="text-sm text-red-500 hover:text-red-600 dark:hover:text-red-400"
+          style="display: none;">
+          清除全部
+        </button>
+      </div>
+      <ul id="fileList" class="list-none my-2 p-0 max-h-64 overflow-y-auto"></ul>
+    </div>
+
+    <h3 class="font-semibold text-lg mt-6 mb-4">2. 合併選項</h3>
+    <label class="block mb-4">
+      <span class="text-gray-700 dark:text-gray-300 mb-1 block">輸出檔名</span>
+      <div class="flex items-center">
+        <input type="text" id="outputFileName" value="merged_document" placeholder="輸出檔名"
+          class="border rounded-l px-4 py-2 w-full bg-white dark:bg-gray-600 dark:border-gray-500 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
+        <span class="bg-gray-100 dark:bg-gray-700 px-4 py-2 border border-l-0 rounded-r">.pdf</span>
+      </div>
+    </label>
+
+    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full my-4 h-2 overflow-hidden" id="progressContainer"
+      style="display: none;">
+      <div class="h-2 bg-green-500 rounded-full" id="progressBar" style="width:0%"></div>
     </div>
 
     <button id="mergeBtn"
-      class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed">開始合併</button>
+      class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors shadow-sm font-medium">
+      開始合併 PDF
+    </button>
   </div>
-  <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 mb-4 shadow dark:bg-gray-700">
-    <h3 class="font-semibold mb-2">處理日誌</h3>
+  <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-6 mb-6 shadow-sm dark:bg-gray-700 bg-white">
+    <h3 class="font-semibold text-lg mb-4 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+          clip-rule="evenodd" />
+      </svg>
+      處理日誌
+    </h3>
     <div id="log"
-      class="whitespace-pre-line bg-gray-100 dark:bg-gray-600 p-2 rounded max-h-52 overflow-y-auto font-mono"></div>
+      class="whitespace-pre-line bg-gray-50 dark:bg-gray-800 p-4 rounded-lg max-h-60 overflow-y-auto font-mono text-sm border border-gray-200 dark:border-gray-600">
+    </div>
   </div>
-  <div class="mt-8 text-center text-gray-600 dark:text-gray-400 text-sm">
-    使用 Pyodide + pypdf 在瀏覽器中執行，檔案不會離開您的電腦 | <a href="https://github.com/Shen-Ming-Hong/PDF_merge" target="_blank"
-      class="underline">GitHub
-      原始碼</a>
+  <div
+    class="mt-10 text-center text-gray-500 dark:text-gray-400 text-sm py-4 border-t border-gray-200 dark:border-gray-700">
+    <p>使用 Pyodide + pypdf 在瀏覽器中執行，完全離線運作</p>
+    <div class="mt-2 flex justify-center space-x-4">
+      <a href="https://github.com/Shen-Ming-Hong/PDF_merge" target="_blank"
+        class="inline-flex items-center hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill-rule="evenodd"
+            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+            clip-rule="evenodd"></path>
+        </svg>
+        GitHub 原始碼
+      </a>
+    </div>
   </div>
   <script>
     // 全域變數
@@ -74,6 +126,7 @@
     const fileList = document.getElementById("fileList");
     const progressBar = document.getElementById("progressBar");
     const progressContainer = document.getElementById("progressContainer");
+    const clearFilesBtn = document.getElementById("clearFiles");
 
     // 初始化 Worker
     function initWorker() {
@@ -151,34 +204,49 @@
     }
 
     // 已選擇的檔案清單，可調整順序
-    let selectedFiles = [];
-
-    // 渲染檔案清單，加入上下移動按鈕
+    let selectedFiles = [];    // 渲染檔案清單，加入上下移動按鈕
     function renderFileList() {
       fileList.innerHTML = "";
       selectedFiles.forEach((file, index) => {
         const li = document.createElement("li");
-        li.className = "flex items-center mb-1";
+        li.className = "flex items-center mb-2 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors";
 
         const text = document.createElement("span");
-        text.className = "flex-1";
+        text.className = "flex-1 truncate";
         text.textContent = `${index + 1}. ${file.name} (${formatFileSize(file.size)})`;
 
+        const btnGroup = document.createElement("div");
+        btnGroup.className = "flex space-x-1";
+
         const upBtn = document.createElement("button");
-        upBtn.textContent = "↑";
-        upBtn.className = "px-2";
+        upBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>';
+        upBtn.className = "p-1 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500 focus:outline-none transition-colors";
         upBtn.disabled = index === 0;
         upBtn.addEventListener("click", () => moveFile(index, -1));
+        if (upBtn.disabled) {
+          upBtn.classList.add("opacity-50", "cursor-not-allowed");
+        }
 
         const downBtn = document.createElement("button");
-        downBtn.textContent = "↓";
-        downBtn.className = "px-2";
+        downBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>';
+        downBtn.className = "p-1 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500 focus:outline-none transition-colors";
         downBtn.disabled = index === selectedFiles.length - 1;
         downBtn.addEventListener("click", () => moveFile(index, 1));
+        if (downBtn.disabled) {
+          downBtn.classList.add("opacity-50", "cursor-not-allowed");
+        }
+
+        const removeBtn = document.createElement("button");
+        removeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>';
+        removeBtn.className = "p-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-800 dark:text-red-300 dark:hover:bg-red-700 focus:outline-none transition-colors";
+        removeBtn.addEventListener("click", () => removeFile(index));
+
+        btnGroup.appendChild(upBtn);
+        btnGroup.appendChild(downBtn);
+        btnGroup.appendChild(removeBtn);
 
         li.appendChild(text);
-        li.appendChild(upBtn);
-        li.appendChild(downBtn);
+        li.appendChild(btnGroup);
         fileList.appendChild(li);
       });
     }
@@ -193,10 +261,33 @@
       renderFileList();
     }
 
-    // 選擇檔案事件
-    fileInput.addEventListener("change", () => {
-      selectedFiles = Array.from(fileInput.files);
+    // 移除檔案
+    function removeFile(index) {
+      selectedFiles.splice(index, 1);
       renderFileList();
+    }    // 選擇檔案事件
+    fileInput.addEventListener("change", () => {
+      const newFiles = Array.from(fileInput.files);
+      
+      // 過濾掉已經存在的檔案（根據檔案名稱和大小比對）
+      const uniqueNewFiles = newFiles.filter(newFile => {
+        return !selectedFiles.some(existingFile => 
+          existingFile.name === newFile.name && existingFile.size === newFile.size
+        );
+      });
+      
+      // 將新選擇的檔案添加到現有的檔案列表中
+      selectedFiles = [...selectedFiles, ...uniqueNewFiles];
+      clearFilesBtn.style.display = selectedFiles.length > 0 ? 'block' : 'none';
+      renderFileList();
+      log(`📄 已添加 ${uniqueNewFiles.length} 個新檔案，總計 ${selectedFiles.length} 個檔案`);
+    });// 清除檔案按鈕事件
+    clearFilesBtn.addEventListener("click", () => {
+      selectedFiles = [];
+      fileInput.value = null;
+      clearFilesBtn.style.display = 'none';
+      renderFileList();
+      log("📄 已清除所有檔案");
     });
 
     // 合併按鈕事件
@@ -244,11 +335,8 @@
       const logDiv = document.getElementById("log");
       logDiv.textContent += msg + "\n";
       logDiv.scrollTop = logDiv.scrollHeight;
-    }
-
-    function updateProgress(percent) {
+    } function updateProgress(percent) {
       progressBar.style.width = `${percent}%`;
-      progressBar.textContent = `${Math.round(percent)}%`;
       progressContainer.style.display = "block";
     }
 
@@ -259,7 +347,49 @@
     }
 
     // 啟動應用
-    initWorker();  </script>
+    initWorker();
+
+    // 拖放功能支援
+    const dropZone = document.querySelector('label[for="fileInput"]');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+      dropZone.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-blue-900', 'dark:border-blue-400');
+    }
+
+    function unhighlight() {
+      dropZone.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-blue-900', 'dark:border-blue-400');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+
+      if (files.length > 0) {
+        fileInput.files = files;
+        const event = new Event('change');
+        fileInput.dispatchEvent(event);
+      }
+    }
+  </script>
   <script>
     // 深色模式切換功能
     document.addEventListener('DOMContentLoaded', function () {
