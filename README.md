@@ -2,6 +2,8 @@
 
 這是一個純前端的 PDF 合併工具，使用 Pyodide（瀏覽器中的 Python 執行環境）加載 pypdf 庫來實現 PDF 檔案合併功能。所有處理都在瀏覽器本地進行，您的檔案不會上傳到任何伺服器。
 
+您可以透過 [GitHub Pages](https://shen-ming-hong.github.io/PDF_merge/) 直接線上使用。
+
 ## 功能特點
 
 - ✅ **完全在瀏覽器中執行** - 所有 PDF 處理都在本地完成
@@ -26,7 +28,7 @@
 1. 克隆本倉庫
 
    ```
-   git clone https://github.com/your-username/PDF_merge.git
+   git clone https://github.com/Shen-Ming-Hong/PDF_merge.git
    ```
 
 2. 進入項目目錄
