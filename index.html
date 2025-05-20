@@ -5,12 +5,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PDF 合併工具 | Pyodide + pypdf</title>
+  <style>
+    @font-face {
+      font-family: 'MapleMono NF';
+      src: url('fonts/MapleMono-NF-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
-        extend: {}
+        extend: {
+          fontFamily: {
+            sans: ['"MapleMono NF"', 'monospace', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            maple: ['"MapleMono NF"', 'monospace']
+          }
+        }
       }
     }
   </script>
@@ -268,14 +282,14 @@
     }    // 選擇檔案事件
     fileInput.addEventListener("change", () => {
       const newFiles = Array.from(fileInput.files);
-      
+
       // 過濾掉已經存在的檔案（根據檔案名稱和大小比對）
       const uniqueNewFiles = newFiles.filter(newFile => {
-        return !selectedFiles.some(existingFile => 
+        return !selectedFiles.some(existingFile =>
           existingFile.name === newFile.name && existingFile.size === newFile.size
         );
       });
-      
+
       // 將新選擇的檔案添加到現有的檔案列表中
       selectedFiles = [...selectedFiles, ...uniqueNewFiles];
       clearFilesBtn.style.display = selectedFiles.length > 0 ? 'block' : 'none';

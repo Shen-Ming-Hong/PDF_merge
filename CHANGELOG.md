@@ -18,6 +18,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 已修改 Changed
 
+## [0.4.1] - 2025-05-20
+
+### 新增 Added
+
+- 新增 MapleMono NF 字型支援，提升文字顯示效果
+- 新增自定義字型樣式，優化用戶界面的閱讀體驗
+
+### 已更新 Updated
+
+- 更新 Tailwind 配置，增加自定義字型家族設定
+
 ## [0.4.0] - 2025-05-20
 
 ### 新增 Added

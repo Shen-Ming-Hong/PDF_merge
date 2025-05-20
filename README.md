@@ -20,6 +20,7 @@
 - ✅ **現代化介面** - 透過 Tailwind CSS 提供簡潔外觀
 - ✅ **深色模式** - 支援深色模式顯示，減輕夜間使用時的視覺疲勞
 - ✅ **主題記憶** - 自動記住您的主題偏好，也可跟隨系統設定
+- ✅ **優質字型** - 使用 MapleMono NF 字型，提供清晰易讀的閱讀體驗
 
 ## 技術實現
 
@@ -28,25 +29,26 @@
 - **Web Worker**: 用於非阻塞處理大文件
 - **Service Worker**: 提供離線功能
 - **Tailwind CSS**: 前端樣式框架
+- **MapleMono NF**: 優化閱讀體驗的高品質等寬字型
 
 ## 本地開發
 
 1. 克隆本倉庫
 
-   ```
+   ```bash
    git clone https://github.com/Shen-Ming-Hong/PDF_merge.git
    ```
 
 2. 進入項目目錄
 
-   ```
+   ```bash
    cd PDF_merge
    ```
 
 3. 使用任何 HTTP 伺服器啟動（例如 VS Code 的 Live Server 擴展）
    或使用 Python 的簡易 HTTP 伺服器：
 
-   ```
+   ```bash
    python -m http.server
    ```
 
